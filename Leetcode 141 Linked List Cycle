@@ -1,0 +1,11 @@
+Two pointer: one faster, one slower. Slower pointer moves one step while faster pointer moves two steps.
+Prove: why two pointers can be used to detect cycle.
+Assume s is the number of nodes from begining of the list to the intersect with the cycle (call it start of the cycle)
+Assume j is the number of nodes where two pointers met from the start cycle. L is the cycle length.
+Now the quesiton is to prove whether j always exists as long as there is a cycle, meaning these two pointers will meet.
+Then, for slower pointer: it travels:D_slow = s+j+n*L (assumes when two meet, slower pointer has go over n times of cycles).
+for faster pointer: it travels: D_fast= s+j+m*L (assume faster pointer has go over m times of cycles).
+
+Since faster pointer travels 2 times as slower pointer, then the distance travelled by faster pointer should be 2 times of slower pointer.
+thus, D_fast = 2*D_slow. which means, s+j+m*L = 2*(s+j+n*L)==> j = (m-2n)L -s. We can always find a combination of n, m which cause 0<=j<=L.
+For example, n =0, m = (int) s/L+1; then, s = int(s/L)*L + s%L; j = L - s%L.  
