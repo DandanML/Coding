@@ -12,4 +12,19 @@ public:
     }
 };
 
-Solution 2): 
+Solution 2): This one only works if there is only one duplicate.
+class Solution {
+public:
+    int findDuplicate(vector<int>& nums) {
+       //mathematical solution if only one duplicate.
+      // without the duplicate, the sum = 1+2+3+...+n = n*(n+1)/2;
+      //with duplication, sum = 1+2+3+...+n+duplicate* = n*(n+1)/2 + duplicate.
+      int sum = 0;
+      for (auto num:nums){
+          sum += num;
+      }
+      int n = nums.size()-1;
+      int ans = sum - n*(n+1)/2;
+      return ans;
+    }
+};
