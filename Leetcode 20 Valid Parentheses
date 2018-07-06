@@ -1,0 +1,22 @@
+class Solution {
+public:
+    bool isValid(string s) {
+        //parentheses: (, ), {, }, [,]. For valid parentheses, the parentheses right before ')', '}', ']' has to be their matching part.  checking the last parenthese before this one, stack can be used.
+        stack<char> parentheses;
+        for (auto c:s){
+            switch(c){
+                case '(':
+                case '{':
+                case '[': parentheses.push(c); break;
+                case ')': if (!parentheses.empty()&& parentheses.top()=='(') parentheses.pop(); else return false; break;
+                //note the boundary condition of stack empty. 
+                case '}': if (!parentheses.empty()&&parentheses.top()=='{') parentheses.pop(); else return false; break;
+                case ']': if (!parentheses.empty()&&parentheses.top()=='[') parentheses.pop(); else return false; break;
+            }
+        }
+        if (!parentheses.empty()) return false; //if it it valid, then after the previous steps, the stack should be empty. 
+        else return true;
+    }
+};
+Time complexity: O(n), n = length(s).
+Space: stack size O(n)
