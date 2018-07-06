@@ -1,0 +1,15 @@
+
+Solution 1): hash set. but this one use O(n) extra space. 
+class Solution {
+public:
+    int findDuplicate(vector<int>& nums) {
+        //hash set. O(n) extra space
+        unordered_set<int> set;
+        for (auto num: nums){
+            if (set.count(num)==0) set.insert(num);
+            else return num;
+        }
+    }
+};
+
+Solution 2): 
