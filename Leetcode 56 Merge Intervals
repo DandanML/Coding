@@ -1,0 +1,38 @@
+/**
+ * Definition for an interval.
+ * struct Interval {
+ *     int start;
+ *     int end;
+ *     Interval() : start(0), end(0) {}
+ *     Interval(int s, int e) : start(s), end(e) {}
+ * };
+ */
+class Solution {
+public:
+    vector<Interval> merge(vector<Interval>& intervals) {
+        if (intervals.size()<=1) return intervals;
+        //first sort based on the start time and then compare the end time. 
+        sort(intervals.begin(), intervals.end(), [](Interval x, Interval y){return x.start<y.start;}); //using lambda function. 
+        vector<Interval> ans;
+        int start = intervals[0].start;
+        int end = intervals[0].end;
+        Interval overlap_interval(start, end);
+        for (int i=1; i<intervals.size();i++){
+           if (intervals[i].start<=end){ 
+                  end = max(intervals[i].end,end); //combine interval, updating the end time. 
+            } else{
+               overlap_interval.start = start;
+               overlap_interval.end = end; 
+               ans.push_back(overlap_interval);
+               start = intervals[i].start; //start the new interval.
+               end = intervals[i].end;
+           }
+        }
+        overlap_interval.start = start;
+        overlap_interval.end = end; 
+        ans.push_back(overlap_interval); //add the last element. 
+        return ans;
+    }
+};
+time complexity: sort: nlog(n), for loop: n. thus, total nlog(n). 
+space complexity: o(1).
