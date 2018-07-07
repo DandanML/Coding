@@ -17,3 +17,5 @@ public:
         else return ans;        
     }
 };
+Time complexity: O(n). n: the number of digits.
+Space complexity: O(1)
