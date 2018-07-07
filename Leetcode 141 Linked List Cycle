@@ -1,3 +1,10 @@
+Problem:
+Given a linked list, determine if it has a cycle in it.
+
+Follow up:
+Can you solve it without using extra space?
+
+Analysis:
 Two pointer: one faster, one slower. Slower pointer moves one step while faster pointer moves two steps.
 Prove: why two pointers can be used to detect cycle.
 Assume s is the number of nodes from begining of the list to the intersect with the cycle (call it start of the cycle)
