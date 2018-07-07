@@ -1,0 +1,13 @@
+class Solution {
+public:
+    void merge(vector<int>& nums1, int m, vector<int>& nums2, int n) {
+        //this uses the property that the combined vector has size (m+n-1) and goes from the large to small.
+        int merged_index = m+n-1;
+        m = m-1;
+        n = n-1;
+        for (; n>=0; ){//if n=0, then no need to merge anymore as the remaining elements of nums1 will keep there.
+            nums1[merged_index--] = (m>=0 && nums1[m]>nums2[n])? nums1[m--]:nums2[n--];
+        }
+        return;        
+    }
+};
