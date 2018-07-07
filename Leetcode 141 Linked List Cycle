@@ -9,3 +9,28 @@ for faster pointer: it travels: D_fast= s+j+m*L (assume faster pointer has go ov
 Since faster pointer travels 2 times as slower pointer, then the distance travelled by faster pointer should be 2 times of slower pointer.
 thus, D_fast = 2*D_slow. which means, s+j+m*L = 2*(s+j+n*L)==> j = (m-2n)L -s. We can always find a combination of n, m which cause 0<=j<=L.
 For example, n =0, m = (int) s/L+1; then, s = int(s/L)*L + s%L; j = L - s%L.  
+
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool hasCycle(ListNode *head) {
+        ListNode *sp = head; //slow pointer.
+        ListNode *fp = head; //fast pointer.
+        while(sp!=NULL && fp!=NULL && fp->next!=NULL){
+            sp = sp->next;
+            fp = fp->next->next;
+            if (sp == fp) return true;
+        }
+        return false;
+    }
+};
+Time complexity: O(n).
+space complexity: O(1).
