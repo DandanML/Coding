@@ -8,4 +8,62 @@ Can you solve it without using extra space?
 
 Two pointer solution: The following video explains very well how Floyd's cycle detection algorithm works
 https://www.youtube.com/watch?v=LUm2ABqAs1w.
-This quesiton is highly related with Leetcode 141, which I have documented in 
+This quesiton is highly related with Leetcode 141, which I have documented in Coding/Leetcode 141 Linked List Cycle.
+
+As illustrated in Leetcode 141, s+j = (m-2n)*L, where m-2n is integer. After the slow pointer and faster pointer meet, keep faster pointer there and
+reset slow pointer to the head of the list. Then, start to move both slow and fast pointer step by step. The next time they meet is the start of the cycle.
+
+This means slow pointer is going to move s steps, and fast pointer is going to move s steps too. After fast pointer moves s steps, it is (j+s) aways from the start
+of the cycle. Since (s+j)%L =0, which means it will be back to the start of the cycle and thus meet with slow pointer. 
+
+Before we gave the two pointer solution, let's first take a look at hash set solution:
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode *detectCycle(ListNode *head) {
+        //hash set.
+        ListNode *cur = head;
+        unordered_set<ListNode*> list_set;
+        while(cur!=NULL){
+            if (list_set.count(cur)==0) list_set.insert(cur);
+            else{
+                return cur; //if this node is already in set, then cycle is detected and this node is the start of the cycle.  
+            } 
+            cur = cur->next;
+        }
+        return NULL;
+    }
+};
+Time complexity: O(n).
+Space complexity: O(n).
+
+Next, the two pointer solution:
+1). first find the node where two pointer meets.
+2). reset one pointer to the start of the list, and then move both pointers.
+class Solution {
+public:
+    ListNode *detectCycle(ListNode *head) {
+        ListNode *fastp = head;//fast pointer.
+        ListNode *slowp = head;//slow pointer.
+        while(fastp!=NULL && fastp->next!=NULL && slowp!=NULL){
+            fastp = fastp->next->next;
+            slowp = slowp->next;
+            if (fastp==slowp) break;
+        }
+        if (fastp==NULL || fastp->next==NULL || slowp==NULL) return NULL; //if no cycle.
+        //if there is cycle. reset slowp = head;
+        slowp = head;
+        while(fastp!=slowp){
+            slowp = slowp->next;
+            fastp = fastp->next;
+        }
+        return fastp;
+    }
+};
