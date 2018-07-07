@@ -1,0 +1,19 @@
+This question we need to pay attention to border condition (overflow). Thus, use long long (equivalent to int64).
+This link list the range of each data type:
+https://msdn.microsoft.com/en-us/library/s3f49ktz.aspx
+This link gives the constant representation of the limit of each data type:
+https://msdn.microsoft.com/en-us/library/296az74e.aspx
+
+class Solution {
+public:
+    int reverse(int x) {
+        long long ans = 0;
+        while(x!=0){
+            int residual = x%10;
+            ans = ans*10+residual;   
+            x = (x-residual)/10;
+        }
+        if (ans>INT_MAX || ans<INT_MIN) return 0; 
+        else return ans;        
+    }
+};
