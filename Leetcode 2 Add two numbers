@@ -31,3 +31,6 @@ public:
         return head;
     }
 };
+
+Time complexity: O(n), n is max(length of l1, length of l2)
+Space complexity: O(n), this is to save the final results.
