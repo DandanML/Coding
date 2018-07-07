@@ -1,3 +1,5 @@
+Three solutions provided.
+
 Solution 1). Brute force
 class Solution {
 public:
@@ -56,3 +58,29 @@ public:
 };
 Time complexity: O(n*Klog(K)), n is the number of strings, K is the lengh of the longest string, Klog(K) is due to sort. 
 Space complexity: O(n). 
+
+Solution 3).
+class Solution {
+public:
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        unordered_map<string, vector<string>> str_map;
+        for (auto str: strs){
+            vector<int> count(26);
+            for (auto char_str:str)
+                count[char_str-'a']++;
+            string key;
+            for (int i=0; i<count.size(); i++){
+                key += count[i];
+                key += i+'a';
+            }
+            str_map[key].push_back(str); //if the key does not exist, the string is pushed into an empty vector.
+        }
+        vector<vector<string>> res;
+        for (auto it:str_map){
+            res.push_back(it.second);
+        }
+        return res;
+    }
+};
+Time complexity: O(NK)
+Space complexity: O(N)
