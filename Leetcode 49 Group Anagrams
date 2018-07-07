@@ -1,0 +1,38 @@
+Solution 1). Brute force
+class Solution {
+public:
+    vector<vector<string>> groupAnagrams(vector<string>& strs) {
+        vector<vector<string>> res;
+        for (auto str: strs){
+           int n = res.size();
+           bool flag = false;
+           for (int i=0; i<n; i++){
+               if (validAnagrams(res[i][0], str)){
+                  res[i].push_back(str);
+                  flag = true;
+                  break;
+               }
+           }
+           if (!flag) {//not anagram with any strings in the array, create a new vector.
+               vector<string> temp_str;
+               temp_str.push_back(str);
+               res.push_back(temp_str);
+           }
+        }
+        return res;
+    }
+    bool validAnagrams(string strs1, string strs2){
+        if (strs1.length()!=strs2.length()) return false;
+        unordered_map<char, int> map_strs1;
+        for (auto char_s:strs1){
+            map_strs1[char_s]++;
+        }
+        for (auto char_s:strs2){
+            if (map_strs1[char_s]==0) return false;
+            else map_strs1[char_s]--;
+        }
+        return true;
+    }
+};
+Time complexity: O(n*m), n is the number of strings, m is the number of groups. On top of it, there is time used to compare anagram for each string.
+Space complexity: O(n)
