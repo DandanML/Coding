@@ -11,3 +11,5 @@ public:
         return;        
     }
 };
+Time complexity: O(m+n);
+Space compexitly: O(1)
