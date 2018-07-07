@@ -1,0 +1,68 @@
+Solution 1). Using a vector to store all the numbers in order and then check whether they are sorted.
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool isValidBST(TreeNode* root) {
+        if (root==NULL) return true;
+        //inorder travel to save all the numbers into a vector and then check whether the vector is sorted.
+        vector<int> nodes;
+        inordertraversal(root, nodes);
+        for (int i=1; i<nodes.size(); i++){
+            if (nodes[i]<=nodes[i-1]) return false;
+        }
+        return true;
+    }
+    void inordertraversal(TreeNode* root, vector<int> & nodes){
+        if (root==NULL) return;
+        inordertraversal(root->left, nodes);
+        nodes.push_back(root->val);
+        inordertraversal(root->right, nodes);
+    }
+};
+Time complexity: O(n).
+Space complexity: O(n), two part: O(h),h is the depth of the tree introduced by recursive visiting and one vector of size (n).
+
+Solution 2). do not need extra vector. check the order while inorder traversaling the tree.
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool isValidBST(TreeNode* root) {
+        if (root==NULL) return true;
+        bool firstnodechecked = false; //note that we use a flag instead of INT_MIN so that we can correctly detect the first node. The first node value may be equal to INT_MIN.
+        int pre = 0;
+        return inordertraversal(root, firstnodechecked, pre);
+       
+    }
+    bool inordertraversal(TreeNode* root, bool& flag, int& pre){
+        if (root==NULL) return true;
+        if (inordertraversal(root->left, flag, pre)==false) return false;
+        if (flag==false) {
+            pre = root->val; 
+            flag = true;
+        } else {
+            if (root->val<=pre) return false;
+            else{
+                pre = root->val;
+            }
+        }
+        if (inordertraversal(root->right, flag, pre)==false) return false;
+        return true;
+    }
+};
