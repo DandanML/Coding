@@ -1,0 +1,33 @@
+Solution 1). 
+class Solution {
+public:
+    int findKthLargest(vector<int>& nums, int k) {
+        int max;
+        int index_max;
+        while(k>0){ //find the largest number, replace it with INT_MIN. and then find the second largest number, replace it with INT_MIN...
+            max = nums[0];
+            index_max = 0;
+            for(int i=1; i<nums.size(); i++){
+                if (max<nums[i]) {
+                    max= nums[i];
+                    index_max = i;
+                }
+            }
+            nums[index_max] = INT_MIN;
+            k--;
+        }
+        return max;
+    }
+};
+Time complexity: O(kn).If k is large, this one is approaching O(n^2). If k is small, this one is O(n). On average, O(n*n/2) still O(n^2)
+Space complexity: O(1)
+
+Solution 2): using sort directly.
+
+class Solution {
+public:
+    int findKthLargest(vector<int>& nums, int k) {
+        sort(nums.begin(), nums.end(), [](int a, int b){return a>b;});
+        return nums[k-1];
+    }
+};
