@@ -10,6 +10,7 @@ public:
     }
     
     /** Push element x onto stack. */
+    // O(1)
     void push(int x) {
         if (!q2.empty()) //push into the non-empty one. if both empty, push into q1.
             q2.push(x);
@@ -19,6 +20,7 @@ public:
     }
     
     /** Removes the element on top of the stack and returns that element. */
+    //O(N) since we have to copy from one queue to another. 
     int pop() {
         int ans;
         if (q1.size()>0){
@@ -45,7 +47,7 @@ public:
             }
         }
     }
-    
+    //O(N)
     /** Get the top element. */
     int top() {
         int ans;
