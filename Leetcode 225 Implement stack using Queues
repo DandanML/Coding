@@ -1,0 +1,81 @@
+Solution:
+Using two queues. One of the queue is empty, which is used to copy the elements from the other queue for pop, top operation. For push, the new element is always added
+into the non-empty queue.
+
+class MyStack {
+public:
+    /** Initialize your data structure here. */
+    MyStack() {
+        
+    }
+    
+    /** Push element x onto stack. */
+    void push(int x) {
+        if (!q2.empty()) //push into the non-empty one. if both empty, push into q1.
+            q2.push(x);
+        else
+            q1.push(x);
+        return;
+    }
+    
+    /** Removes the element on top of the stack and returns that element. */
+    int pop() {
+        int ans;
+        if (q1.size()>0){
+            while (q1.size()>1){
+                ans = q1.front();
+                q2.push(ans);
+                q1.pop();
+            }
+            ans = q1.front();
+            q1.pop();
+            return ans;
+        } else{ 
+            if (q2.size()>0){
+                while (q2.size()>1){
+                    ans = q2.front();
+                    q1.push(ans);
+                    q2.pop();
+                }
+                ans = q2.front();
+                q2.pop();
+                return ans;
+            } else{
+                return -1;
+            }
+        }
+    }
+    
+    /** Get the top element. */
+    int top() {
+        int ans;
+        if (q1.size()>0){
+            while (q1.size()>0){
+                ans = q1.front();
+                q2.push(ans);
+                q1.pop();
+            }
+            return ans;
+        } else{ 
+            if (q2.size()>0){
+                while (q2.size()>0){
+                    ans = q2.front();
+                    q1.push(ans);
+                    q2.pop();
+                }
+                return ans;
+            } else{
+                return -1; //for empty queue.
+            }
+        }
+    }
+    
+    /** Returns whether the stack is empty. */
+    bool empty() {
+        return q1.empty() && q2.empty();
+        
+    }
+private: 
+    queue<int> q1;
+    queue<int> q2;
+};
