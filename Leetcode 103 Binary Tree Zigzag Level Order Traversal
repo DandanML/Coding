@@ -1,0 +1,38 @@
+Note that the trick of this solution is using the size of each level to reverse the numbers in each level.
+This refers to the solution posted in this link: 
+https://leetcode.com/problems/binary-tree-zigzag-level-order-traversal/discuss/33825/c++-5ms-version:-one-queue-and-without-reverse-operation-by-using-size-of-each-level
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<vector<int>> zigzagLevelOrder(TreeNode* root) {
+        vector<vector<int>> res;
+        if (root==NULL) return res;
+        queue<TreeNode*> nodequeue;
+        nodequeue.push(root);
+        int level = 1;
+        while(!nodequeue.empty()){
+            int level_size = nodequeue.size();
+            vector<int> temp_res(level_size);
+            for (int i=0; i<level_size; i++){
+                TreeNode* tempnode = nodequeue.front();
+                if (level%2==0) temp_res[level_size-1-i] = tempnode->val; //note that since we know the size of this level, then we can set the value using the element index of the array. 
+                else temp_res[i] = tempnode->val;
+                nodequeue.pop();
+                if(tempnode->left) nodequeue.push(tempnode->left);
+                if(tempnode->right) nodequeue.push(tempnode->right);
+            }
+            res.push_back(temp_res);
+            level++;
+        }
+        return res;        
+    }
+};
