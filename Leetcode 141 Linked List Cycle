@@ -31,10 +31,10 @@ public:
     bool hasCycle(ListNode *head) {
         ListNode *sp = head; //slow pointer.
         ListNode *fp = head; //fast pointer.
-        while(sp!=NULL && fp!=NULL && fp->next!=NULL){
-            sp = sp->next;
-            fp = fp->next->next;
-            if (sp == fp) return true;
+        while (sp!=NULL && fp!=NULL && fp->next!=NULL) {
+          sp = sp->next;
+          fp = fp->next->next;
+          if (sp == fp) return true;
         }
         return false;
     }
