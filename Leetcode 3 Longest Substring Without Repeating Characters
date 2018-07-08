@@ -1,0 +1,21 @@
+class Solution {
+public:
+    int lengthOfLongestSubstring(string s) {
+        unordered_map<char, int> record;
+        int begin = 0;
+        int end = 0;
+        int max_length = 0;
+        while (end < s.size()) {
+            if (record.count(s[end])==1 && record[s[end]] >= begin) {
+                begin = record[s[end]] + 1;
+            }
+            record[s[end]] = end;  //note to update the recode for s[end].
+            end++;
+            //keep updating the length.
+            if (end - begin > max_length){
+                max_length = end - begin;
+            }
+        }
+        return max_length;
+    }
+};
