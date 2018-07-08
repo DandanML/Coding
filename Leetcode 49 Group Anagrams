@@ -70,7 +70,7 @@ public:
                 count[char_str-'a']++;
             string key;
             for (int i=0; i<count.size(); i++){
-                key += to_string(count[i]); 
+                key += to_string(count[i])+char(i+'a'); 
                 key += i+'a';
             }
             str_map[key].push_back(str); //if the key does not exist, the string is pushed into an empty vector.
