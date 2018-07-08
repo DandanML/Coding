@@ -1,0 +1,34 @@
+Level order traversal, get the size of the queue before pushing into next level.
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    vector<vector<int>> levelOrder(TreeNode* root) {
+        vector<vector<int>> res;
+        if (root==NULL) return res;
+        queue<TreeNode*> nodequeue;
+        nodequeue.push(root);
+        while(!nodequeue.empty()){
+            int level_size = nodequeue.size();
+            vector<int> temp_res;
+            for (int i=0; i<level_size; i++){
+                TreeNode* tempnode = nodequeue.front();
+                temp_res.push_back(tempnode->val);
+                nodequeue.pop();
+                if (tempnode->left) nodequeue.push(tempnode->left);
+                if (tempnode->right) nodequeue.push(tempnode->right);
+            }
+            res.push_back(temp_res);
+        }
+        return res;        
+    }
+};
+Time complexity: O(N): travel all the nodes.
+Space complexity: o(N+M), N: number of nodes, M is the level with the most nodes
