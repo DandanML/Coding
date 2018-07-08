@@ -4,12 +4,12 @@ public:
     int findKthLargest(vector<int>& nums, int k) {
         int max;
         int index_max;
-        while(k>0){ //find the largest number, replace it with INT_MIN. and then find the second largest number, replace it with INT_MIN...
+        while (k>0) { //find the largest number, replace it with INT_MIN. and then find the second largest number, replace it with INT_MIN...
             max = nums[0];
             index_max = 0;
             for(int i=1; i<nums.size(); i++){
-                if (max<nums[i]) {
-                    max= nums[i];
+                if (max < nums[i]) {
+                    max = nums[i];
                     index_max = i;
                 }
             }
