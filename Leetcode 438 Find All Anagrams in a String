@@ -1,0 +1,32 @@
+class Solution {
+public:
+    vector<int> findAnagrams(string s, string p) {
+        vector<int> p_map(256,0);
+        for (auto c : p) {
+            p_map[c]++;
+        }
+        vector<int> ans;
+        int begin = 0;
+        int end = 0;
+        int required_char_count = p.size();
+        while (end < s.size()) {
+            if (p_map[s[end]] > 0) {
+                required_char_count--;
+            }
+            p_map[s[end]]--;
+            while (required_char_count == 0 ){
+                //the size from begin to the end needs to be equal to string p size. 
+                if (end - begin + 1 == p.size())
+                    ans.push_back(begin);
+                //evaluate the impact of remove begin element.
+                p_map[s[begin]]++;
+                if (p_map[s[begin]] > 0) {
+                    required_char_count++;
+                }
+                begin++;
+            }
+            end++;
+        }
+        return ans;
+    }
+};
