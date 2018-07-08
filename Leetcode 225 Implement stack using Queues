@@ -10,8 +10,9 @@ public:
     }
     
     /** Push element x onto stack. */
-    // O(1)
+    //O(1)
     void push(int x) {
+        top_element = x;
         if (!q2.empty()) //push into the non-empty one. if both empty, push into q1.
             q2.push(x);
         else
@@ -20,15 +21,16 @@ public:
     }
     
     /** Removes the element on top of the stack and returns that element. */
-    //O(N) since we have to copy from one queue to another. 
+    //O(N)
     int pop() {
-        int ans;
+        int ans =0 ;
         if (q1.size()>0){
             while (q1.size()>1){
                 ans = q1.front();
                 q2.push(ans);
                 q1.pop();
             }
+            top_element = ans;
             ans = q1.front();
             q1.pop();
             return ans;
@@ -39,6 +41,7 @@ public:
                     q1.push(ans);
                     q2.pop();
                 }
+                top_element = ans;
                 ans = q2.front();
                 q2.pop();
                 return ans;
@@ -47,31 +50,12 @@ public:
             }
         }
     }
-    //O(N)
-    /** Get the top element. */
-    int top() {
-        int ans;
-        if (q1.size()>0){
-            while (q1.size()>0){
-                ans = q1.front();
-                q2.push(ans);
-                q1.pop();
-            }
-            return ans;
-        } else{ 
-            if (q2.size()>0){
-                while (q2.size()>0){
-                    ans = q2.front();
-                    q1.push(ans);
-                    q2.pop();
-                }
-                return ans;
-            } else{
-                return -1; //for empty queue.
-            }
-        }
-    }
     
+    /** Get the top element. */
+    //O(1)
+    int top() {
+       return top_element;
+    }
     /** Returns whether the stack is empty. */
     bool empty() {
         return q1.empty() && q2.empty();
@@ -80,4 +64,5 @@ public:
 private: 
     queue<int> q1;
     queue<int> q2;
+    int top_element;
 };
