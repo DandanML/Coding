@@ -1,0 +1,83 @@
+One exllent post on this:
+https://medium.com/leetcode-patterns/leetcode-pattern-2-sliding-windows-for-strings-e19af105316b
+However, please note that using hash_map is kind of slow due to checking whether the key there or not each time. For chars, it is better to use
+array since its size is fixed (256). 
+
+Solution 1). hash table: unordered_map.
+class Solution {
+public:
+    string minWindow(string s, string t) {
+        unordered_map<char, int> t_map;
+        for (auto c : t) {
+            t_map[c]++;
+        }
+        string ans = "";
+        int count = t.size(); //the number of unique chars in string t.
+        int begin = 0;
+        int end = 0;
+        int head = 0;
+        int min_window_length = INT_MAX;
+        while (end < s.size()){
+            if (t_map.count(s[end]) == 1) {
+                if (t_map[s[end]] > 0) count--; 
+                t_map[s[end]]--;
+            }
+            while (count == 0){
+                int temp_len = end - begin + 1;
+                if (temp_len < min_window_length) {
+                    min_window_length = temp_len;
+                    head = begin;
+                }
+                // now check what happens if move ahead begin position one step.
+                char temp = s[begin];
+                //only need to update t_map table if this begin position is indeed in the table. 
+                if (t_map.count(temp) == 1){ 
+                    t_map[temp]++;
+                    if (t_map[temp] > 0) count++;
+                }
+                begin++; //now move begin position one step. check again whether count is 0.
+            }
+            end++;
+        }
+        return (min_window_length == INT_MAX)? "": s.substr(head, min_window_length);       
+    }
+};
+
+Solution 2): array of 256.
+class Solution {
+public:
+    string minWindow(string s, string t) {
+        vector<int> t_map(256,0); //from a-->z && A-->Z
+        for (auto c : t) {
+            t_map[c]++;
+        }
+        int required_char_count = t.size(); //the number of chars in string t.
+        int begin = 0;
+        int end = 0;
+        int head = 0;
+        int min_window_length = INT_MAX;
+        while (end < s.size()){
+            if (t_map[s[end]] > 0) { //if this char is in t and needed.
+                required_char_count--;
+            }
+            t_map[s[end]]--;
+            while (required_char_count == 0){
+                int temp_len = end - begin + 1;
+                if (temp_len < min_window_length) {
+                    min_window_length = temp_len;
+                    head = begin;
+                }
+                // now check what happens if move ahead begin position one step.
+                char temp = s[begin];
+                t_map[temp]++;
+                //only need to update t_map table if this begin position is indeed in the table and its count is larger than 0. 
+                if (t_map[temp] > 0){ 
+                    required_char_count++;
+                }
+                begin++; //now move begin position one step. check again whether count is 0.
+            }
+            end++;
+        }
+        return (min_window_length == INT_MAX)? "": s.substr(head, min_window_length);       
+    }
+};
