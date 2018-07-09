@@ -1,0 +1,22 @@
+Solution: 2 pointer. 
+
+class Solution {
+public:
+    int removeDuplicates(vector<int>& nums) {
+        //use two pointer, cur represents the location of the sorted array without duplicate. next represent the next non-duplicate position.
+        if (nums.size() == 0) return 0;
+        if (nums.size() == 1) return 1;
+        int cur = 0;
+        int next = 1;
+        while (next < nums.size()) {
+            if (nums[next] != nums[cur]){
+                cur++;
+                nums[cur] = nums[next];
+                next++;
+            } else{
+                next++;
+            }
+        }
+        return cur+1;
+    }
+};
