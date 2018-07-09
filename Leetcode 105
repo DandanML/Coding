@@ -1,0 +1,58 @@
+solution 1). create subvector. slow.
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+        if (preorder.size()==0) return nullptr;
+        TreeNode* node = new TreeNode(preorder[0]);
+        // find the index of preorder[0] in inorder vector.
+        int i = 0;
+        for (; i < inorder.size(); i++){
+            if (inorder[i] == preorder[0]) {
+                break;
+            }
+        }
+        vector<int> leftpreorder(preorder.begin()+1, preorder.begin()+i+1);
+        vector<int> leftinorder(inorder.begin(), inorder.begin()+i);
+        node->left = buildTree(leftpreorder, leftinorder);
+        vector<int> rightpreorder(preorder.begin()+i+1, preorder.end());
+        vector<int> rightinorder(inorder.begin()+i+1, inorder.end());
+        node->right = buildTree(rightpreorder, rightinorder);
+        
+        return node; 
+    }
+};
+
+Solution 2). using position index. 
+class Solution {
+public:
+    TreeNode* buildTree(vector<int>& preorder, vector<int>& inorder) {
+        return helper(preorder, 0, preorder.size(), inorder, 0, inorder.size());
+    }
+private:
+    TreeNode* helper(vector<int>& preorder, int pi, int pj, 
+                     vector<int>& inorder, int ii, int ij) {
+        if (pj-pi <= 0) return nullptr;
+        TreeNode* node = new TreeNode(preorder[pi]);
+        // find the index of preorder[preorder_start] in inorder vector.
+        int i = ii;
+        for (; i < ij; i++){
+            if (inorder[i] == preorder[pi]) {
+                break;
+            }
+        }
+        int dis = i - ii;
+        node->left = helper(preorder, pi+1, pi+dis+1, inorder, ii, ii+dis);
+        node->right = helper(preorder, pi+dis+1, pj,inorder, ii+dis+1, ij);
+        
+        return node; 
+    }
+};
