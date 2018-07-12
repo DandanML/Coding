@@ -1,3 +1,5 @@
+We can either use switch function or hash map. Hash map is a little slower.
+
 class Solution {
 public:
     int romanToInt(string s) {
@@ -28,3 +30,5 @@ private:
         return res;
     }
 };
+Time complexity: O(N).
+Space complexity: O(1).
