@@ -1,0 +1,30 @@
+class Solution {
+public:
+    int romanToInt(string s) {
+        int res = 0;
+        for (int i = 0; i < s.size(); ) {
+            if (i + 1 < s.size() && (s[i] == 'I' && (s[i+1]=='V' || s[i+1]=='X')) ||(s[i] == 'X' && (s[i+1]=='L'|| s[i+1]=='C'))||(s[i] == 'C' && (s[i+1]=='D'||s[i+1] =='M'))) {
+                res = res + getNum(s[i+1]) - getNum(s[i]);
+                i = i + 2;
+            } else{
+                res = res + getNum(s[i]);
+                i++;
+            }        
+        }
+        return res;
+    }
+private:
+    int getNum(char c) {
+        int res; 
+        switch (c){
+            case 'I' : res = 1; break;
+            case 'V' : res = 5; break;
+            case 'X' : res = 10; break;
+            case 'L' : res = 50; break;
+            case 'C' : res = 100; break;
+            case 'D' : res = 500; break;
+            case 'M' : res = 1000; break;
+        }
+        return res;
+    }
+};
