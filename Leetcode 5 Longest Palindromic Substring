@@ -29,10 +29,10 @@ public:
        string res = "";
        for (int i = 0; i < s.size(); i++) {
            
-           //first check if the substring is odd and s[i] is in the middle.
+           //first check if the substring is odd length and s[i] is in the middle.
            checkpalindrom (s, i, i, max, res);
 
-           //second check if the substring is even and s[i] and s[i+1] is in the middle.
+           //second check if the substring is even length and s[i] and s[i+1] is in the middle.
            checkpalindrom (s, i, i+1, max, res);
        }
        return res;
