@@ -1,0 +1,69 @@
+), First solution, space complexity: O(m, n).  first row and column needs specicial process.
+
+class Solution {
+public:
+    int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
+       if (obstacleGrid.size()==0) return 0;
+       if (obstacleGrid[0][0] ==1) return 0;
+       int m = obstacleGrid.size();
+       int n = obstacleGrid[0].size();
+       vector<vector<int>> dp(m, vector<int>(n,1));
+       //check the first row.
+       for (int j = 1; j < n; j++) {
+           if (obstacleGrid[0][j] == 1) dp[0][j] = 0;
+           else dp[0][j] = dp[0][j-1];
+       }
+       //check the first column.
+       for (int i = 1; i < m; i++) {
+           if (obstacleGrid[i][0] == 1) dp[i][0] = 0;
+           else dp[i][0] = dp[i-1][0];
+       }
+       for (int i = 1; i < m; i++) {
+           for (int j = 1; j < n; j++) {
+               if (obstacleGrid[i][j] == 1) dp[i][j] = 0;
+               else dp[i][j] = dp[i-1][j] + dp[i][j-1];
+           }
+       }
+       return dp[m-1][n-1];
+    }
+}; 
+
+2). second solution, dp(m+1, n+1), introduce a "fake" row and column so that the real first row and first column do not need special process.
+class Solution {
+public:
+    int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
+        if (obstacleGrid[0][0]==1) return 0;
+        int m = obstacleGrid.size();
+        int n = obstacleGrid[0].size();
+        vector<vector<int>> path(m+1, vector<int>(n+1,0));
+        path[0][1]=1;
+        for (int column=1; column<n+1; column++){
+            for (int row=1; row < m+1; row++){
+                if (obstacleGrid[row-1][column-1]==0){//if there is obstacle, then path=0 as default. If there is no obstacle, update the path value. 
+                    path[row][column] = path[row][column-1]+path[row-1][column];
+                }
+            }
+        }
+        return path[m][n];
+    }
+};
+3). save space.
+class Solution {
+public:
+    int uniquePathsWithObstacles(vector<vector<int>>& obstacleGrid) {
+        if (obstacleGrid[0][0]==1) return 0;
+        int m = obstacleGrid.size();
+        int n = obstacleGrid[0].size();
+        vector<int> path(m+1, 0);
+        path[1] = 1;
+        for (int column=1; column<n+1; column++){
+            for (int row=1; row < m+1; row++){
+                if (obstacleGrid[row-1][column-1]==0){//if there is obstacle, then path=0 as default. If there is no obstacle, update the path value. 
+                    path[row] = path[row-1]+path[row];
+                } else
+                    path[row] = 0;
+            }
+        }
+        return path[m];
+    }
+};
