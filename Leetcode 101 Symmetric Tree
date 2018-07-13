@@ -1,0 +1,46 @@
+Solution 1). Recursive solution. 
+
+/**
+ * Definition for a binary tree node.
+ * struct TreeNode {
+ *     int val;
+ *     TreeNode *left;
+ *     TreeNode *right;
+ *     TreeNode(int x) : val(x), left(NULL), right(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    bool isSymmetric(TreeNode* root) {
+        if (root == NULL) return true;
+        return isMirror(root->left, root->right);
+    }
+private:
+    bool isMirror(TreeNode* root1, TreeNode* root2) {
+        if (root1 == NULL && root2 == NULL) return true;
+        if (root1 == NULL || root2 == NULL) return false;
+        return (root1->val == root2->val) && isMirror(root1->left, root2->right) && isMirror(root1->right, root2->left);
+    }
+};
+
+Solution 2). Iterative solution. The trick is to make pair of left and right node. Otherwise, if we do level order traversal, we have to check whether
+the per level nodes are symmetric or not.
+class Solution {
+public:
+    bool isSymmetric(TreeNode* root) {
+        if (root==NULL) return true;
+        if (root->left == NULL && root->right == NULL) return true;
+        queue<pair<TreeNode*, TreeNode*>> nodequeue;
+        nodequeue.push(make_pair(root->left, root->right));
+        while (!nodequeue.empty()) {
+            pair<TreeNode*, TreeNode*> temp = nodequeue.front();
+            nodequeue.pop();
+            if (temp.first == NULL && temp.second == NULL) continue;
+            if (temp.first == NULL || temp.second == NULL) return false;
+            if (temp.first->val != temp.second->val) return false;
+            nodequeue.push(make_pair(temp.first->left, temp.second->right));
+            nodequeue.push(make_pair(temp.first->right, temp.second->left));
+        }
+        return true;
+    }
+};
