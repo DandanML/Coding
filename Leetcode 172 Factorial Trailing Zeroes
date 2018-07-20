@@ -1,0 +1,14 @@
+class Solution {
+public:
+    int trailingZeroes(int n) {
+        //this is a math problem. aims to find how many "5" < n. Note that 5, 10, 15 only has one 5. But numbers like 25 has 2 "5" since 25 = 5*5. 125 = 5* 5*5 has 3 "5". Assume n = k*5 + m, then, there are 1*5, 2*5, 3*5...K*5, total k "5" for numbers smaller than n assuming k is not multiplication of 5.
+        int res = 0;
+        while (n > 1) {
+            res += n/5; //include k "5"
+            n = n/5; //check how many "5" in k till k is <1.
+        }
+        return res;        
+    }
+};
+
+Time complexity: x, where assume n = 5^x, then x = log_5(n). 
