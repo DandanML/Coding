@@ -1,0 +1,44 @@
+Solution 1. Recursive
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* swapPairs(ListNode* head) {
+        if (head == NULL || head->next == NULL) return head; //if empty list or only one node in the list, return head. no need to swap.
+        ListNode* temp1 = head;
+        ListNode* temp2 = head->next->next;
+        head = head->next;
+        head->next = temp1;
+        head->next->next = swapPairs(temp2);
+        return head;        
+    }
+};
+
+Solution 2: Iterative
+class Solution {
+public:
+    ListNode* swapPairs(ListNode* head) {
+        if (head == NULL || head->next == NULL) return head; //if empty list or only one node in the list, return head. no need to swap.
+        ListNode* temp1 = head;
+        ListNode* temp2 = head->next->next;
+        head = head->next;
+        head->next = temp1;
+        while (temp2 != NULL) { //temp2 is the new temphead;
+            if (temp2->next == NULL) break;
+            ListNode* temp = temp2->next->next;
+            temp1->next = temp2->next;
+            temp2->next->next = temp2;
+            temp1 = temp2;
+            temp2 = temp;
+        }
+        temp1->next = temp2;
+        return head;        
+    }
+};
