@@ -33,3 +33,25 @@ private:
 };
 
 Solution 2: 
+class Solution {
+public:
+    vector<vector<int>> pathSum(TreeNode* root, int sum) {
+        vector<vector<int>> res;
+        if (root==NULL) return res;
+        vector<int> path;
+        travelSum(root, sum, path, res);
+        return res;
+    }
+private:
+    void travelSum(TreeNode* root, int sum, vector<int> path, vector<vector<int>>& res) {
+        path.push_back(root->val);
+        if (root->left == NULL && root->right == NULL && sum == root->val)
+            res.push_back(path);
+        if (root->left!=NULL) {
+            travelSum(root->left, sum-root->val, path, res);
+        }
+        if (root->right!=NULL) {
+            travelSum(root->right, sum-root->val, path, res);
+        } 
+    }
+};
