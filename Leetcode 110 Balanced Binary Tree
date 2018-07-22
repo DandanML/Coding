@@ -1,3 +1,4 @@
+Solution 1: time complexity: O(N^2);
 /**
  * Definition for a binary tree node.
  * struct TreeNode {
@@ -20,5 +21,31 @@ private:
         int rheight = heightTree(root->right);
         int height = max(lheight, rheight) + 1;
         return height;
+    }
+};
+
+Solution 2: Time complexity: O(N)
+class Solution {
+public:
+    bool isBalanced(TreeNode* root) {
+        if (root == NULL || (root->left == NULL && root->right ==NULL) ) return true;
+        int height = 0;
+        return heightTree(root, height);
+    }
+private:
+    bool heightTree(TreeNode* root, int& height) {
+        if (root == NULL) {
+            height = 0;
+            return true;
+        }
+        int lheight = 0;
+        int rheight = 0;
+        bool lh = heightTree(root->left, lheight);
+        if (!lh) return false;
+        bool rh = heightTree(root->right, rheight);
+        if (!rh) return false;
+        if (abs(lheight - rheight) > 1) return false;
+        height = max(lheight, rheight) + 1;
+        return true;
     }
 };
