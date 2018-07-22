@@ -1,3 +1,4 @@
+Solution 1:
 class Solution {
 public:
     bool wordBreak(string s, vector<string>& wordDict) {
@@ -33,4 +34,24 @@ private:
         return false;
     }
    unordered_map<string, bool> string_map_;
+};
+
+Solution 2:
+
+class Solution {
+public:
+    bool wordBreak(string s, vector<string>& wordDict) {
+        vector<bool> dp(s.length() + 1, false);
+        dp[0] = true;
+        unordered_set<string> wd;
+        for(int i = 0; i < wordDict.size(); ++ i) {
+            wd.insert(wordDict[i]);
+        }
+        for(int i = 0; i < s.length(); ++ i) {
+            for(int j = i; j >= 0 && !dp[i + 1]; -- j) {
+                dp[i + 1] = dp[j] && wd.find(s.substr(j, i - j + 1)) != wd.end();
+            }
+        }
+        return dp[s.length()];
+    }
 };
