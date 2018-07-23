@@ -1,0 +1,17 @@
+//find the lowest price till now. and compare with the later price.
+//pay attention to corner case.
+
+class Solution {
+public:
+    int maxProfit(vector<int>& prices) {
+        if (prices.size() == 0) return 0;
+        int max = 0;
+        int lowest = prices[0];
+        for (int i = 1; i < prices.size(); i++){
+            if (prices[i] < lowest) lowest = prices[i];
+            if (prices[i] - lowest > max) max = prices[i] - lowest;
+        }
+        return max;
+        
+    }
+};
