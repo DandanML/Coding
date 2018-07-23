@@ -1,0 +1,32 @@
+Good explanation:
+https://leetcode.com/problems/3sum/discuss/7402/Share-my-AC-C++-solution-around-50ms-O(N*N)-with-explanation-and-comments
+
+class Solution {
+public:
+    vector<vector<int>> threeSum(vector<int>& nums) {
+        vector<vector<int>> res; 
+        if (nums.size() <=2 ) return res;
+        sort(nums.begin(), nums.end());
+        for (int i = 0; i < nums.size()-2; ++i) { 
+            int target = -nums[i]; //the targetted sum of the other two.
+            int low = i + 1;
+            int high = nums.size() - 1;
+            while (low < high) {
+                int sum = nums[low] + nums[high];
+                if (sum < target) {
+                    low ++;
+                } else if (sum > target) {
+                    high --;
+                } else{ //find the targetted sum.
+                    vector<int> ans{nums[i], nums[low], nums[high]};
+                    res.push_back(ans);
+                    while(low < high && nums[low+1] == nums[low]) low++;
+                    low ++;
+                }
+            }
+            
+            while (i+1<nums.size()-2 && nums[i+1] == nums[i]) i++;
+        }
+        return res;
+    }
+};
