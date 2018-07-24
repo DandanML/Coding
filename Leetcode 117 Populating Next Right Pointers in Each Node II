@@ -31,34 +31,29 @@ public:
 };
 
 Solution 2: constant extra space. The key is to use two pointers: one is representing the head of the next level and the other is to representing the current node.
-
 class Solution {
 public:
     void connect(TreeLinkNode *root) {
-      if (root == NULL) return;
-      TreeLinkNode* cur = root;
-      TreeLinkNode* head = root;
-      TreeLinkNode* tail = NULL;
-      while(head != NULL) {
-          cur = head;
-          head = NULL; //head for next level.
-          while (cur!=NULL){
-              if (cur->left!=NULL) {
-                  if (head == NULL) tail = head = cur->left;
-                  else {
-                      tail->next = cur->left;
-                      tail = tail->next;
-                  }
-              } 
-              if (cur->right != NULL) {
-                  if (head == NULL) tail = head = cur->right;
-                  else {
-                      tail->next = cur->right;
-                      tail = tail->next;
-                  }
-              }
-              cur = cur->next;
-          }
-      }
+        if (root==NULL) return;
+        TreeLinkNode *cur = root; //the pointer at current level.
+        TreeLinkNode *head = NULL;
+        TreeLinkNode *tail = NULL; //head and tail is the head and tail of next level.
+        while(cur!=NULL){
+            if(cur->left){//if head is NULL. this will be the head and also temporarily set tail. Tail can be updated depending on whether it has more nodes at this level. If head is not null, we only need to updat ethe tail. Next pointer is set while updating the tail.
+                if (head == NULL) head = tail = cur->left;
+                else {tail->next = cur->left; tail = cur->left;}
+            }
+            if (cur->right){
+                if (head == NULL) head = tail = cur->right;
+                else {tail->next = cur->right; tail = cur->right;}
+            }
+            if (cur->next==NULL) {//if this is the last node at this level. start the new level.
+                cur = head;
+                head = tail = NULL;
+            } else{
+              cur = cur->next;  
+            } 
+         }
+        return;
     }
 };
