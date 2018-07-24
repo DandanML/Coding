@@ -1,0 +1,38 @@
+Solution 1: recursion
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head) {
+        if (head == NULL || head->next ==NULL) return head;
+        ListNode* next = head->next; //Note that the tail of the reversed link is the next of original head (head->next).
+        ListNode* newhead = reverseList(head->next);
+        head->next = NULL;
+        next->next = head;
+        return newhead;   
+    }
+};
+
+Solution 2: iterative
+class Solution {
+public:
+    ListNode* reverseList(ListNode* head) {
+        if (head == NULL || head->next == NULL) return head;
+        ListNode* pre = NULL;
+        ListNode* cur = head;
+        ListNode* next;
+        while(cur!=NULL) {
+            next = cur->next;
+            cur->next = pre;
+            pre = cur;
+            cur = next;
+        }
+        return pre;
+    }
+};
