@@ -1,0 +1,26 @@
+class Solution {
+public:
+    int trap(vector<int>& height) {
+        if (height.size()<=2) return 0;
+        int leftmax = height[0];
+        int rightmax = INT_MIN;
+        int ans = 0;
+        int indexmax = -1;
+        for (int i = 1; i < height.size()-1; ++i) {
+            //find the left max and right max.
+           if (indexmax < i) {
+               rightmax = INT_MIN; //reset max at the right side.
+                for (int j = i+1; j < height.size(); ++j) {
+                    if (height[j] > rightmax) {
+                        rightmax = height[j];
+                        indexmax = j;
+                    }
+                }
+            }
+            ans += (min(leftmax, rightmax) <= height[i]) ? 0: min(leftmax, rightmax)-height[i]; 
+            if (height[i] > leftmax) leftmax = height[i];
+        }
+        return ans;
+        
+    }
+};
