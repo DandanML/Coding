@@ -1,0 +1,37 @@
+Solution 1: using vector to count char and then loop over string.
+class Solution {
+public:
+    int firstUniqChar(string s) {
+        if (s.size()==0) return -1;
+        //since letter only exist in the below 128. 
+        vector<int> char_count(128,0); //this is to count how many time a char exists in the string.
+        for (int i = 0; i < s.size(); ++i) {
+            char_count[s[i]] ++;
+        }
+        for (int i = 0; i < s.size(); ++i) {
+            if (char_count[s[i]]==1) return i;
+        }
+        return -1;
+    }
+};
+
+Solution2: using vector to count char and loop over vector.
+class Solution {
+public:
+    int firstUniqChar(string s) {
+        if (s.size()==0) return -1;
+        //since letter only exist in the below 128. 
+        vector<int> char_count(26,0); //this is to count how many time a char exists in the string.
+        vector<int> char_index(26,-1); //this is to document the first appearence of each char.
+        for (int i = 0; i < s.size(); ++i) {
+            char_count[s[i]-'a'] ++;
+            if (char_index[s[i]-'a']==-1) char_index[s[i]-'a'] = i;
+        }
+        int min = INT_MAX;
+        for (int i = 0; i < 26; ++i) {
+            if (char_count[i] == 1 && char_index[i] < min)
+                min = char_index[i];
+        }
+        return (min==INT_MAX)?-1:min;
+    }
+};
