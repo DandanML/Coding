@@ -22,3 +22,30 @@ private:
         return map[head];
     }
 };
+
+Solution 2: using map and iterative solution. 
+class Solution {
+public:
+    RandomListNode *copyRandomList(RandomListNode *head) {
+        unordered_map<RandomListNode*, RandomListNode*> map;
+        RandomListNode* copyhead = NULL;
+        if (head == NULL) return copyhead;
+        copyhead = new RandomListNode(head->label);
+        map[head] = copyhead;
+        RandomListNode* cur = head;
+        RandomListNode* copycur = copyhead;
+        while(cur!=NULL) {
+            if (cur->next!=NULL){
+                copycur->next = (map.find(cur->next)!=map.end()) ? map[cur->next] : new RandomListNode(cur->next->label);
+                map[cur->next] = copycur->next;
+            }
+            if (cur->random!=NULL){
+                copycur->random = (map.find(cur->random)!=map.end())? map[cur->random] : new RandomListNode(cur->random->label);
+                map[cur->random] = copycur->random;
+            }
+            copycur = copycur->next;
+            cur = cur->next;
+        }
+        return copyhead;
+    }
+};
