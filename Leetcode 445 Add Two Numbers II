@@ -47,3 +47,117 @@ private:
 };
 
 Solution 2: do not reverse the list and using recursion.
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        if (l1 == NULL) return l2;
+        if (l2 == NULL) return l1;
+        int len1 = getListLen(l1);
+        int len2 = getListLen(l2);
+        int carryon = 0;
+        if (len1 > len2) addTwoList(l1, l2, len1-len2, carryon);
+        else addTwoList(l2, l1, len2-len1, carryon);
+        if (carryon > 0) {
+            ListNode* node = new ListNode(carryon);
+            node->next = (len1 > len2) ? l1 : l2;
+            return node;
+        } else{
+            return (len1 > len2) ? l1 : l2; 
+        }
+        
+    }
+    void addTwoList(ListNode* l1, ListNode* l2, int deltalen, int& carryon) {
+        if (l1->next == NULL && l2->next == NULL) {
+            int value = l1->val + l2->val;
+            carryon = value/10;
+            l1->val = value % 10;
+            return;
+        }
+        if (deltalen > 0) {
+            addTwoList(l1->next, l2, --deltalen, carryon);
+            int value = l1->val + carryon;
+            carryon = (value/10);
+            l1->val = value%10;
+        } else{
+            addTwoList(l1->next, l2->next, 0, carryon);
+            int value = l1->val + l2->val + carryon;
+            carryon = (value / 10);
+            l1->val = value % 10;
+        }
+        return;
+    }
+private:
+    int getListLen(ListNode* head) {
+        if (head == NULL) return 0;
+        int len = 0;
+        while (head!=NULL) {
+            len ++;
+            head = head->next;
+        }
+        return len;
+    }
+};
+
+Solution 3: create a new list (note that new was used in this case. Not smart pointer. and easy to cause memory leak.
+class Solution {
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        if (l1 == NULL) return l2;
+        if (l2 == NULL) return l1;
+        int len1 = getListLen(l1);
+        int len2 = getListLen(l2);
+        int carryon = 0;
+        ListNode* head = NULL;
+        if (len1 > len2) head = addTwoList(l1, l2, len1-len2, carryon);
+        else head = addTwoList(l2, l1, len2-len1, carryon);
+        if (carryon > 0) {
+            ListNode* node = new ListNode(carryon);
+            node->next = head;
+            return node;
+        } else{
+            return head; 
+        }
+    }
+    ListNode* addTwoList(ListNode* l1, ListNode* l2, int deltalen, int& carryon) {
+        if (l1->next == NULL && l2->next == NULL) {
+            ListNode* node = new ListNode((l1->val+l2->val)%10);
+            int value = l1->val + l2->val;
+            carryon = value/10;
+            return node;
+        }
+        ListNode* head;
+        ListNode* node;
+        if (deltalen > 0) {
+            head = addTwoList(l1->next, l2, --deltalen, carryon);
+            node = new ListNode((l1->val+carryon)%10);
+            int value = l1->val + carryon;
+            carryon = (value/10);
+            node->next = head;
+        } else{
+            head = addTwoList(l1->next, l2->next, 0, carryon);
+            int value = l1->val + l2->val + carryon;
+            node = new ListNode(value%10);
+            carryon = (value / 10);
+            node->next = head;
+        }
+        return node;
+    }
+private:
+    int getListLen(ListNode* head) {
+        if (head == NULL) return 0;
+        int len = 0;
+        while (head!=NULL) {
+            len ++;
+            head = head->next;
+        }
+        return len;
+    }
+};
