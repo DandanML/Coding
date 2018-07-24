@@ -1,0 +1,49 @@
+Solution 1: reverse the list.
+
+class Solution {
+public:
+    ListNode* addTwoNumbers(ListNode* l1, ListNode* l2) {
+        ListNode* rl1 = reverseList(l1);
+        ListNode* rl2 = reverseList(l2);
+        ListNode* cur1 = rl1;
+        ListNode* cur2 = rl2;
+        if (cur1==NULL) return l2;
+        if (cur2==NULL) return l1;
+        ListNode* head = new ListNode(cur1->val + cur2->val);
+        int carryon = head->val / 10;
+        head->val = head->val % 10;
+        ListNode* cur = head;
+        cur1 = cur1->next;
+        cur2 = cur2->next;
+        while(cur1!=NULL || cur2!=NULL){
+            ListNode* node = new ListNode(((cur1!=NULL)?cur1->val:0) + ((cur2!=NULL)?cur2->val:0) + carryon);
+            carryon = node->val/10;
+            node->val = node->val % 10;
+            cur->next = node;
+            cur = cur->next;
+            if (cur1!=NULL) cur1 = cur1->next;
+            if (cur2!=NULL) cur2 = cur2->next;
+        }
+        if (carryon!=0){
+          ListNode* node = new ListNode(carryon); 
+          cur->next = node;
+        } 
+        return reverseList(head);        
+    }
+private:
+    ListNode* reverseList(ListNode* head){
+        if (head == NULL) return head;
+        ListNode* pre = NULL;
+        ListNode* cur = head;
+        ListNode* next;
+        while(cur!=NULL) {
+            next = cur->next;
+            cur->next = pre;
+            pre = cur;
+            cur = next;
+        }
+        return pre;
+    }
+};
+
+Solution 2: do not reverse the list and using recursion.
