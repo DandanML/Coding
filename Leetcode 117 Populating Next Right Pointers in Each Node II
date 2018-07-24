@@ -1,0 +1,31 @@
+Solution 1: Using queue (extra space of O(N)).
+/**
+ * Definition for binary tree with next pointer.
+ * struct TreeLinkNode {
+ *  int val;
+ *  TreeLinkNode *left, *right, *next;
+ *  TreeLinkNode(int x) : val(x), left(NULL), right(NULL), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    void connect(TreeLinkNode *root) {
+        if (root == NULL) return;
+        queue<TreeLinkNode* > nodequeue;
+        nodequeue.push(root);
+        TreeLinkNode* temp;
+        TreeLinkNode* pre; 
+        while (!nodequeue.empty()) {
+            int level_size = nodequeue.size();
+            pre = NULL; //rest pre to NULL at the beginning of the level.
+            for (int i = 0; i < level_size; ++i) {
+                temp = nodequeue.front();
+                temp->next = pre;
+                if (temp->right!=NULL) nodequeue.push(temp->right);
+                if (temp->left!=NULL) nodequeue.push(temp->left);
+                pre = temp;
+                nodequeue.pop();
+            }
+        }     
+    }
+};
