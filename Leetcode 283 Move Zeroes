@@ -1,0 +1,33 @@
+Solution 1: in place move
+class Solution {
+public:
+    void moveZeroes(vector<int>& nums) {
+        //two pointers: one is zero start position. the other non-zero position.
+        int zero_start_ps = -1;
+        for (int i = 0; i < nums.size(); ++i) {
+            if (nums[i]==0 && zero_start_ps == -1) zero_start_ps = i;
+            if (nums[i]!=0 && zero_start_ps!=-1) {
+                nums[zero_start_ps] = nums[i];
+                nums[i] = 0;
+                zero_start_ps++;
+            }
+        }
+        return;        
+    }
+};
+Solution 2: extra space
+class Solution {
+public:
+    void moveZeroes(vector<int>& nums) {
+        vector<int> A;
+        for(int x=0;x < nums.size();x++)
+        {
+            if(nums[x] != 0)
+            {
+                A.push_back(nums[x]);
+            }
+        }
+        A.resize(nums.size(),0);
+        nums = A;
+    }
+};
