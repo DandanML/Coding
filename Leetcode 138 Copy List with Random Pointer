@@ -16,10 +16,9 @@ private:
     RandomListNode *copyRandomListHelper(RandomListNode* head, unordered_map<RandomListNode*, RandomListNode*>& map) {
         if (head == NULL) return NULL;
         if (map.find(head)!= map.end()) return map[head];
-        RandomListNode* copynode = new RandomListNode(head->label);
-        map[head] = copynode;
-        copynode->next = copyRandomListHelper(head->next, map);
-        copynode->random = copyRandomListHelper(head->random, map);
-        return copynode;
+        map[head] = new RandomListNode(head->label);
+        map[head]->next = copyRandomListHelper(head->next, map);
+        map[head]->random = copyRandomListHelper(head->random, map);
+        return map[head];
     }
 };
