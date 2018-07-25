@@ -1,0 +1,13 @@
+class Solution {
+public:
+    int mySqrt(int x) {
+        double x0 = 0.1;
+        double x1 = x0 - (x0*x0-x)/2/x0;
+        double epsilon = 0.001;
+        while(abs(x1-x0)>epsilon) {
+            x0 = x1;
+            x1 = x0 - (x0*x0-x)/2/x0;
+        }
+        return int(x1);
+    }
+};
