@@ -1,0 +1,27 @@
+class Solution {
+public:
+    vector<vector<int>> allPathsSourceTarget(vector<vector<int>>& graph) {
+        int n = graph.size(); //number of nodes in the graph.
+        vector<bool> visited(n, false);
+        vector<vector<int>> res;
+        vector<int> path;
+        dfs(0, n, graph, path, res, visited);
+        return res;
+    }
+private:
+    void dfs(int i, int n, vector<vector<int>>& graph, vector<int> path, vector<vector<int>>& res, vector<bool>& visited){
+        path.push_back(i);
+        visited[i] = true;
+        if (i == n-1) {
+            res.push_back(path);
+        } else{
+            for (auto s: graph[i]) { //the adjacent nodes of i.
+               if (!visited[s]){
+                  dfs(s, n, graph,path, res, visited);
+               }
+            }
+        }
+        visited[i] = false;
+        return;
+    }
+};
