@@ -1,0 +1,63 @@
+Solution 1: check the length of the two list and then move ahead the head of one list till the length of the two lists are equal.
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        int len1 = getListLength(headA);
+        int len2 = getListLength(headB);
+        ListNode* curA = headA;
+        ListNode* curB = headB;
+        while (len1>len2) {
+            curA = curA->next;
+            len1 --;
+        }
+        while(len2>len1){
+            curB = curB->next;
+            len2 --;
+        }
+        while(curA!=curB){
+            curA = curA->next;
+            curB = curB->next;
+        }
+       return curA;
+    }
+private:
+    int getListLength(ListNode* head) {
+        int res = 0;
+        while(head!=NULL){
+            res++;
+            head = head->next;
+        }
+        return res;
+    }
+};
+
+Solution 2: assuming the length from the intersection till the end is m, len1 = n1 + m, len2 = n2 + m. n1+m+n2= n2+m+n1.
+
+/**
+ * Definition for singly-linked list.
+ * struct ListNode {
+ *     int val;
+ *     ListNode *next;
+ *     ListNode(int x) : val(x), next(NULL) {}
+ * };
+ */
+class Solution {
+public:
+    ListNode *getIntersectionNode(ListNode *headA, ListNode *headB) {
+        ListNode* curA = headA;
+        ListNode* curB = headB;
+        while(curA != curB){
+            curA = (curA !=NULL) ? curA->next : headB;
+            curB = (curB !=NULL) ? curB->next : headA;
+        }
+        return curA;
+    }
+};
