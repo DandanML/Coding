@@ -16,7 +16,7 @@ public:
         vector<Interval> ans;
         int start = intervals[0].start;
         int end = intervals[0].end;
-        Interval overlap_interval(start, end);
+        Interval overlap_interval(start, end); //using a temp instance so that we only need to create one instance. this way, the speed is faster.
         for (int i=1; i<intervals.size();i++){
            if (intervals[i].start<=end){ 
                   end = max(intervals[i].end,end); //combine interval, updating the end time. 
